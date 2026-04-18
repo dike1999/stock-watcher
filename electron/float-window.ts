@@ -113,13 +113,14 @@ export function showFloatWindow(): void {
   });
 
   if (isDev) {
-    const devUrl = 'http://localhost:5173/#/float';
+    const devUrl = 'http://localhost:5173';
     console.log('[FloatWindow] 开发模式，加载:', devUrl);
     floatWindow.loadURL(devUrl);
   } else {
-    const filePath = `file://${process.cwd()}/dist/index.html#/float`;
-    console.log('[FloatWindow] 生产模式，加载:', filePath);
-    floatWindow.loadURL(filePath);
+    const filePath = path.join(__dirname, '../dist/index.html');
+    const fileUrl = `file://${filePath}`;
+    console.log('[FloatWindow] 生产模式，加载:', fileUrl);
+    floatWindow.loadURL(fileUrl);
   }
 
   console.log('[FloatWindow] 浮层窗口已创建，当前列表: ' + JSON.stringify(stockList));

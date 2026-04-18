@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './FloatWindow.css';
+import closeIcon from '../assets/close.png';
+import deleteIcon from '../assets/delete.png';
 
 interface StockItem {
   code: string;
@@ -93,7 +95,7 @@ export default function FloatWindow() {
         <div className='header-top'>
           <div className='header-title'>股票管理</div>
           <div className='close-btn' onClick={handleExit}>
-            <img src='/src/assets/close.png' alt='关闭' style={{ width: '16px', height: '16px' }} />
+            <img src={closeIcon} alt='关闭' style={{ width: '16px', height: '16px' }} />
           </div>
         </div>
         <div className='input-row'>
@@ -129,11 +131,7 @@ export default function FloatWindow() {
                 {stock.code} {stock.name}
               </span>
               <button className='delete-btn' onClick={() => handleDeleteStock(index)}>
-                <img
-                  src='/src/assets/delete.png'
-                  alt='删除'
-                  style={{ width: '12px', height: '12px' }}
-                />
+                <img src={deleteIcon} alt='删除' style={{ width: '12px', height: '12px' }} />
               </button>
             </div>
           ))

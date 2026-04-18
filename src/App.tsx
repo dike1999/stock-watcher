@@ -1,14 +1,13 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import FloatWindow from './pages/FloatWindow';
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
-        <Route path='/' element={<FloatWindow />} />
-        <Route path='/float' element={<FloatWindow />} />
+        <Route path='/*' element={<FloatWindow />} />
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
