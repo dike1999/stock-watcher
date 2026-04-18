@@ -4,7 +4,7 @@
   appId: 'com.stockwatcher.app',
   asar: true,
   productName: 'Stock Watcher',
-  icon: 'images/icon',
+  icon: 'public/icon.png',
   directories: {
     output: 'release/${version}',
   },

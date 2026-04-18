@@ -127,8 +127,8 @@ function rebuildTrayMenu(): void {
   const floatVisible = isFloatWindowVisible();
   const paused = isUpdatesPaused();
   const contextMenu = Menu.buildFromTemplate([
-    { label: '显示浮层', click: showFloatWindow, enabled: !floatVisible },
-    { label: '隐藏浮层', click: hideFloatWindow, enabled: floatVisible },
+    { label: '显示 股票管理', click: showFloatWindow, enabled: !floatVisible },
+    { label: '隐藏 股票管理', click: hideFloatWindow, enabled: floatVisible },
     { type: 'separator' },
     { label: '暂停', click: pauseUpdates, enabled: !paused },
     { label: '继续', click: restartUpdates, enabled: paused },
@@ -225,6 +225,26 @@ ipcMain.handle('verify-stock', async (_event, code: string) => {
   const result = await verifyStock(code);
   console.log('[IPC] verify-stock 结果: ' + JSON.stringify(result));
   return result;
+});
+
+ipcMain.handle('get-store-data', async () => {
+  console.log('[IPC] get-store-data 请求');
+  const stockListData = store.get('stockList');
+  const pollIntervalMsData = store.get('pollIntervalMs');
+  return {
+    stockList: stockListData,
+    pollIntervalMs: pollIntervalMsData,
+  };
+});
+
+ipcMain.on('exit-app', () => {
+  console.log('[IPC] exit-app 请求');
+  app.quit();
+});
+
+ipcMain.on('hide-float-window', () => {
+  console.log('[IPC] hide-float-window 请求');
+  hideFloatWindow();
 });
 
 ipcMain.on(
