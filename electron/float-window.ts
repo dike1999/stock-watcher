@@ -6,6 +6,16 @@ import Store from 'electron-store';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// 定义应用根目录和相关路径
+process.env.APP_ROOT = path.join(__dirname, '..');
+export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
+export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron');
+export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist');
+
+process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
+  ? path.join(process.env.APP_ROOT, 'public')
+  : RENDERER_DIST;
+
 interface FloatWindowBounds {
   x: number;
   y: number;
@@ -59,8 +69,6 @@ export function showFloatWindow(): void {
     y = savedBounds.y;
   }
 
-  const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
-
   floatWindow = new BrowserWindow({
     width: savedBounds.width,
     height: savedBounds.height,
@@ -112,15 +120,14 @@ export function showFloatWindow(): void {
     }
   });
 
-  if (isDev) {
-    const devUrl = 'http://localhost:5173';
+  if (VITE_DEV_SERVER_URL) {
+    const devUrl = VITE_DEV_SERVER_URL;
     console.log('[FloatWindow] 开发模式，加载:', devUrl);
     floatWindow.loadURL(devUrl);
   } else {
-    const filePath = path.join(__dirname, '../dist/index.html');
-    const fileUrl = `file://${filePath}`;
-    console.log('[FloatWindow] 生产模式，加载:', fileUrl);
-    floatWindow.loadURL(fileUrl);
+    const filePath = path.join(RENDERER_DIST, 'index.html');
+    console.log('[FloatWindow] 生产模式，加载:', filePath);
+    floatWindow.loadFile(filePath);
   }
 
   console.log('[FloatWindow] 浮层窗口已创建，当前列表: ' + JSON.stringify(stockList));
